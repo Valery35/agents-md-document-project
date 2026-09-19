@@ -1,0 +1,4 @@
+# Переводы строк хранятся как LF, чтобы файл с Windows и с Linux совпадал
+# байт в байт. Line endings are stored as LF so a file from Windows and from
+# Linux matches byte for byte.
+* text=auto eol=lf
