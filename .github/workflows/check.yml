@@ -1,0 +1,26 @@
+# Прогон на каждый push и pull request: проверки на возврат для measure.py и
+# сам измеритель по всем текстам репозитория. Красный статус означает, что
+# либо измеритель сломан, либо какой-то текст не проходит собственный свод.
+#
+# Runs on every push and pull request: the regression checks for measure.py and
+# the tool itself over every text in the repository. A red status means either
+# the tool is broken or a text fails its own rules.
+
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Regression checks
+        run: python -m unittest discover tests
+      - name: Measure every text
+        run: python measure.py --band register *.md
