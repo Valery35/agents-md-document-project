@@ -56,6 +56,14 @@ survive poorly through archives and mail, and a name with a space breaks a
 command line written without quotes. The rule is in the set, and the files
 were renamed before the first commit.
 
+**"Молча" passed the check.** A plugin announcement said that a record "не
+пропадает молча", does not vanish silently. The word was not in the list of stop
+words, the measurer let it through, and a person noticed it while reading. The
+image gives the program a voice and does not name the action. The word is added
+to the list with the replacement "без сообщения, без записи об ошибке", without
+a message or a record of the error. The same check found two more places in the
+Russian sample AGENTS.example.ru.md, and both were rewritten.
+
 ## Running the checks
 
 ```

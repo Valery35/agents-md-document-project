@@ -93,6 +93,18 @@ class QuotedWordIsAMention(unittest.TestCase):
         self.assertEqual(len(m.check_words(pairs, "ru")), 1)
 
 
+class SilentlyIsAStopWord(unittest.TestCase):
+    """Запись 10. «Молча» стоп-слово, а «по умолчанию» нет."""
+
+    def test_silently_is_found(self):
+        pairs = m.sentences("Запись, которую поставить нельзя, не пропадает молча.")
+        self.assertEqual(len(m.check_words(pairs, "ru")), 1)
+
+    def test_default_is_not_found(self):
+        pairs = m.sentences("Длина пикета по умолчанию равна 100 м.")
+        self.assertEqual(m.check_words(pairs, "ru"), [])
+
+
 class ParagraphBreakIsKept(unittest.TestCase):
     """Запись 6. Пустая строка закрывает абзац, подпись снимается у каждого."""
 
