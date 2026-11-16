@@ -176,6 +176,27 @@ class ListItemsAndRuns(unittest.TestCase):
         self.assertLessEqual(stats["run"], m.MAX_SHORT_RUN)
 
 
+class MarkdownIsNotProse(unittest.TestCase):
+    """Разметка markdown словами автора не считается."""
+
+    def test_badge_line_is_not_prose(self):
+        badge = ("[![Установить](https://img.shields.io/badge/a-b-blue.svg)]"
+                 "(https://plugins.qgis.org/plugins/planetx/)")
+        pairs = m.sentences(badge + " " + badge + "\n")
+        self.assertEqual(texts(pairs), [])
+
+    def test_link_address_is_not_counted(self):
+        text = ("Модуль бесплатный и открытый. [Поддержать разработку]"
+                "(https://github.com/Valery35#%D0%BF%D0%BE%D0%B4%D0%B4)\n")
+        pairs = m.sentences(text)
+        self.assertEqual([m.word_count(s) for s in texts(pairs)], [4, 2])
+
+    def test_sentence_starting_with_a_digit_is_split(self):
+        text = ("В тот день не было облаков. 15 января 2026 года над "
+                "Западной Сибирью снег закрыт на 78 процентов.\n")
+        self.assertEqual(len(m.sentences(text)), 2)
+
+
 class LanguageDetection(unittest.TestCase):
 
     def test_detects_both(self):

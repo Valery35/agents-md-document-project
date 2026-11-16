@@ -64,6 +64,15 @@ to the list with the replacement "без сообщения, без записи
 a message or a record of the error. The same check found two more places in the
 Russian sample AGENTS.example.ru.md, and both were rewritten.
 
+**Markdown markup counted as prose.** Three places gave false figures in every
+README. A badge line ran as text. The address inside a link counted as words. A
+sentence starting with a digit was not split off. Four badge lines in a row
+merged into one sentence of 234 words. A line holding two sentences of 4 and 2
+words counted as one of 50. A line of badges alone is markup now, only the text
+of a link is counted, and the split happens before a digit and before a link as
+well. In the PlanetX module README the mean fell from 10.9 to 9.4. Sentences
+over 34 words went from 3 to 0.
+
 ## Running the checks
 
 ```
