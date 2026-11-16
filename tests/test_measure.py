@@ -212,6 +212,25 @@ class MarkdownIsNotProse(unittest.TestCase):
         self.assertEqual(len(m.sentences(text)), 2)
 
 
+class SentencesCarryTheirLine(unittest.TestCase):
+    """Находке нужно место в файле, иначе её ищут глазами по всему тексту."""
+
+    def test_line_numbers_are_kept(self):
+        text = ("# Заголовок\n"
+                "\n"
+                "Первый абзац короткий.\n"
+                "\n"
+                "- пункт перечня\n"
+                "\n"
+                "Второй абзац тоже короткий.\n")
+        got = [(s, ln) for s, _, _, ln in m.sentences_at(text)]
+        self.assertEqual([ln for _, ln in got], [3, 5, 7])
+
+    def test_plain_sentences_still_give_three_fields(self):
+        for item in m.sentences("Одно предложение тут."):
+            self.assertEqual(len(item), 3)
+
+
 class LanguageDetection(unittest.TestCase):
 
     def test_detects_both(self):
