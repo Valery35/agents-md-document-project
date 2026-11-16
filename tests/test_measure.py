@@ -212,6 +212,19 @@ class MarkdownIsNotProse(unittest.TestCase):
         self.assertEqual(len(m.sentences(text)), 2)
 
 
+class NumbersAndClosingBrackets(unittest.TestCase):
+    """Образцы Topoliner, посчитанные вручную."""
+
+    def test_a_version_number_is_one_word(self):
+        self.assertEqual(m.word_count("Версия 0.13.5 вышла в ноябре."), 5)
+
+    def test_a_closing_bracket_does_not_hide_the_full_stop(self):
+        text = ("Первое предложение из пяти слов. (Второе стоит в скобках "
+                "целиком.) 2026 год стал для модуля первым.\n")
+        got = [m.word_count(s) for s, _, _ in m.sentences(text)]
+        self.assertEqual(got, [5, 5, 6])
+
+
 class SentencesCarryTheirLine(unittest.TestCase):
     """Находке нужно место в файле, иначе её ищут глазами по всему тексту."""
 
