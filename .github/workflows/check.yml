@@ -23,4 +23,7 @@ jobs:
       - name: Regression checks
         run: python -m unittest discover tests
       - name: Measure every text
-        run: python measure.py --band register *.md
+        run: |
+          python measure.py --band register AGENTS.example.en.md \
+            AGENTS.example.ru.md NOTES.md NOTES.ru.md RULES.en.md RULES.ru.md
+          python measure.py --band letter README.md README.ru.md
