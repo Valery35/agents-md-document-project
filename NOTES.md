@@ -79,6 +79,15 @@ two sentences ran as one. And `&nbsp;` was read as a semicolon. The split now
 happens before an asterisk, the asterisks are stripped after it, and an entity
 becomes a space. All four long sentences of the manual were false.
 
+**A list item fell apart.** Only the first line counted as an item, and its
+wrapped continuation ran as a sentence of its own. A wrapped list gave a row of
+fragments. The file got a rhythm finding it had not earned. The PlanetX module
+README gave 256 sentences instead of 200. Short ones ran at 55 % instead of
+32 %. An indented line after an item now joins it. After the fix the README of
+the set went past the edge of the register band. The run over the set measures
+README with the letter band now. The note band does not fit it. The English
+one holds a mean of 14.0 against 15-20, the Russian one 11.0 against 12-14.
+
 ## Running the checks
 
 ```

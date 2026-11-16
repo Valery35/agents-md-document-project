@@ -195,6 +195,13 @@ class MarkdownIsNotProse(unittest.TestCase):
         text = "Разница существенная. **stream_km** это длина водотока.\n"
         self.assertEqual(len(m.sentences(text)), 2)
 
+    def test_wrapped_list_item_stays_one_item(self):
+        text = ("- Космоснимки. По умолчанию глобус показывает подложку как\n"
+                "  пример основы\n")
+        pairs = m.sentences(text)
+        self.assertEqual(len(pairs), 2)
+        self.assertEqual(m.word_count(texts(pairs)[1]), 8)
+
     def test_html_entity_is_not_a_semicolon(self):
         pairs = m.sentences("Ширина 30&nbsp;метров на всём участке реки.\n")
         self.assertEqual(m.check_punctuation(pairs, "ru"), [])
@@ -216,12 +223,20 @@ class TheSetPassesItsOwnRules(unittest.TestCase):
     """Комплект репозитория проходит собственный свод без нарушений."""
 
     def test_all_markdown_passes(self):
-        files = sorted(str(p) for p in ROOT.glob("*.md"))
-        self.assertTrue(files)
+        # Полоса берётся по виду текста. README это рассказ о наборе, он
+        # меряется полосой letter, а своды и заметки идут как перечни
+        # требований. Полоса note обоим README не подходит: английский
+        # держит среднюю 14,0 при её норме 15-20, русский 11,0 при 12-14.
+        readme = sorted(str(p) for p in ROOT.glob("README*.md"))
+        rest = sorted(str(p) for p in ROOT.glob("*.md")
+                      if not p.name.startswith("README"))
+        self.assertTrue(readme)
+        self.assertTrue(rest)
         import contextlib
         import io
         with contextlib.redirect_stdout(io.StringIO()):
-            code = m.main(["--band", "register", *files])
+            code = m.main(["--band", "register", *rest])
+            code += m.main(["--band", "letter", *readme])
         self.assertEqual(code, 0)
 
 

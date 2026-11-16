@@ -201,10 +201,12 @@ def prose_lines(text: str):
     """
     out = []
     in_code = False
+    in_item = False
     for raw in text.splitlines():
         s = raw.strip()
         if s.startswith("```") or s.startswith("~~~"):
             in_code = not in_code
+            in_item = False
             continue
         if in_code:
             continue
@@ -212,14 +214,23 @@ def prose_lines(text: str):
         if not s or s.startswith("#") or s.startswith("|") \
                 or s.startswith(">") or s.startswith("!["):
             out.append((None, False))
+            in_item = False
             continue
         # Строка значков - разметка, а не текст. Значок это картинка в
         # ссылке, и строка из одних значков слов автора не содержит.
         if BADGE_LINE.fullmatch(s):
             out.append((None, False))
+            in_item = False
             continue
         item = bool(re.match(r"^([-*+]\s+|\d+[.)]\s+)", s))
+        # Пункт перечня, продолженный на следующей строке с отступом, это
+        # один пункт. Иначе его продолжение считается своим предложением, и
+        # перечень рассыпается на обрывки.
+        if in_item and not item and raw[:1].isspace() and out and out[-1][0]:
+            out[-1] = (out[-1][0] + " " + s, out[-1][1])
+            continue
         s = re.sub(r"^([-*+]\s+|\d+[.)]\s+)", "", s)
+        in_item = item
         out.append((s, item))
     return out
 
