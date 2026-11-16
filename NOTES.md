@@ -73,6 +73,12 @@ of a link is counted, and the split happens before a digit and before a link as
 well. In the PlanetX module README the mean fell from 10.9 to 9.4. Sentences
 over 34 words went from 3 to 0.
 
+**A bold word and an html entity.** Both turned up in the Isoliner manual of
+3574 sentences. The split did not happen before a bold word in lower case, so
+two sentences ran as one. And `&nbsp;` was read as a semicolon. The split now
+happens before an asterisk, the asterisks are stripped after it, and an entity
+becomes a space. All four long sentences of the manual were false.
+
 ## Running the checks
 
 ```

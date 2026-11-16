@@ -191,6 +191,14 @@ class MarkdownIsNotProse(unittest.TestCase):
         pairs = m.sentences(text)
         self.assertEqual([m.word_count(s) for s in texts(pairs)], [4, 2])
 
+    def test_sentence_starting_with_a_bold_word_is_split(self):
+        text = "Разница существенная. **stream_km** это длина водотока.\n"
+        self.assertEqual(len(m.sentences(text)), 2)
+
+    def test_html_entity_is_not_a_semicolon(self):
+        pairs = m.sentences("Ширина 30&nbsp;метров на всём участке реки.\n")
+        self.assertEqual(m.check_punctuation(pairs, "ru"), [])
+
     def test_sentence_starting_with_a_digit_is_split(self):
         text = ("В тот день не было облаков. 15 января 2026 года над "
                 "Западной Сибирью снег закрыт на 78 процентов.\n")
